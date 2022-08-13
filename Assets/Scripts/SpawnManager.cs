@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public GameObject powerupPrefab;
+    public GameObject[] enemyPrefabs;
+    public GameObject[] powerupPrefabs;
 
     private float _spawnXRange = 8.0f;
     private float _spawnZRange = 7.0f;
@@ -35,6 +35,7 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnPowerup()
     {
+        GameObject powerupPrefab = powerupPrefabs[Random.Range(0, powerupPrefabs.Length)];
         Instantiate(powerupPrefab, GenerateRandomPosition(), powerupPrefab.transform.rotation);
     }
 
@@ -42,6 +43,7 @@ public class SpawnManager : MonoBehaviour
     {
         for(int i = 0; i < enemiesToSpawn; i++)
         {
+            GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             Instantiate(enemyPrefab, GenerateRandomPosition(), enemyPrefab.transform.rotation);
         }
     }
