@@ -74,14 +74,18 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            Vector3 lookDirection = (enemies[i].transform.position - transform.position).normalized;
-            Instantiate(projectile, transform.position + lookDirection, Quaternion.Euler(lookDirection));
+            if (enemies[i] != null)
+            {
+                Vector3 lookDirection = (enemies[i].transform.position - transform.position).normalized;
+                Instantiate(projectile, transform.position + lookDirection, Quaternion.Euler(lookDirection));
+            }
         }
 
         if (hasPowerup && powerupTag == "Powerup2" && enemies.Length > 0)
         {
             Invoke(nameof(Fire), 0.5f);
-        } else
+        }
+        else
         {
             isFiring = false;
         }

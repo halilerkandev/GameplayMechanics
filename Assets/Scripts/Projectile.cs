@@ -5,21 +5,25 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private Rigidbody rb;
+    private GameObject player;
+    private Vector3 lookDirection;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        StartCoroutine(HandleDestroy());
+        player = GameObject.FindGameObjectWithTag("Player");
+        lookDirection = (transform.position - player.transform.position).normalized;
+        StartCoroutine(DestroyRoutine());
     }
 
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(10 * transform.rotation.eulerAngles.normalized, ForceMode.Impulse);
+        rb.AddForce(10 * lookDirection, ForceMode.Impulse);
     }
 
-    private IEnumerator HandleDestroy()
+    private IEnumerator DestroyRoutine()
     {
         yield return new WaitForSeconds(2);
         Destroy(gameObject);

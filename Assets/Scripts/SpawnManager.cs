@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
 
-        if(enemyCount == 0)
+        if (enemyCount == 0)
         {
             enemyWave++;
             SpawnEnemyWave(enemyWave);
@@ -41,7 +41,7 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnEnemyWave(int enemiesToSpawn)
     {
-        for(int i = 0; i < enemiesToSpawn; i++)
+        for (int i = 0; i < enemiesToSpawn; i++)
         {
             GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
             Instantiate(enemyPrefab, GenerateRandomPosition(), enemyPrefab.transform.rotation);
