@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Powerup2
   - Projectile
+  - Powerup3
+  - Island
   layers:
   - Default
   - TransparentFX

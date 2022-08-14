@@ -17,6 +17,13 @@ public class PlayerController : MonoBehaviour
     private GameObject[] enemies;
 
     private bool isFiring = false;
+    private bool isOnIsland = true;
+    private bool isSmashed = false;
+
+    public float jumpSpeed;
+    public float distance;
+
+    private Coroutine PowerupCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -40,17 +47,28 @@ public class PlayerController : MonoBehaviour
         {
             Fire();
         }
+
+        if (hasPowerup && powerupTag == "Powerup3" && Input.GetKeyDown(KeyCode.Space))
+        {
+            Smash();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Powerup") || other.CompareTag("Powerup2"))
+        if (other.CompareTag("Powerup") ||
+            other.CompareTag("Powerup2") ||
+            other.CompareTag("Powerup3"))
         {
+            if(PowerupCoroutine != null)
+            {
+                StopCoroutine(PowerupCoroutine);
+            }
             hasPowerup = true;
             powerupTag = other.tag;
             powerupIndicator.SetActive(hasPowerup);
             Destroy(other.gameObject);
-            StartCoroutine(PowerupCountdownRoutine());
+            PowerupCoroutine = StartCoroutine(PowerupCountdownRoutine());
         }
     }
 
@@ -65,6 +83,30 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Collided with " + collision.gameObject.name + " with " + powerupTag + " powerup set to " + hasPowerup);
 
             enemyRb.AddForce(_powerupStrength * awayFromPlayer, ForceMode.Impulse);
+        }
+
+        if (collision.gameObject.CompareTag("Island") && !isOnIsland)
+        {
+            isOnIsland = true;
+        }
+
+        if (isOnIsland && isSmashed)
+        {
+            isSmashed = false;
+
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                if (enemies[i] != null)
+                {
+                    Vector3 awayFromPlayer = enemies[i].transform.position - transform.position;
+
+                    if(awayFromPlayer.magnitude < distance)
+                    {
+                        Rigidbody enemyRb = enemies[i].GetComponent<Rigidbody>();
+                        enemyRb.AddForce(2 * _powerupStrength * awayFromPlayer, ForceMode.Impulse);
+                    }
+                }
+            }
         }
     }
 
@@ -89,8 +131,15 @@ public class PlayerController : MonoBehaviour
         {
             isFiring = false;
         }
+    }
 
-        Debug.Log("Fire!");
+    private void Smash()
+    {
+        if (isOnIsland)
+        {
+            _playerRb.AddForce(jumpSpeed * Vector3.up, ForceMode.Impulse);
+            StartCoroutine(SmashRoutine());
+        }
     }
 
     IEnumerator PowerupCountdownRoutine()
@@ -98,5 +147,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(7);
         hasPowerup = false;
         powerupIndicator.SetActive(hasPowerup);
+    }
+
+    IEnumerator SmashRoutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+        _playerRb.velocity = Vector3.zero;
+        _playerRb.AddForce(2 * jumpSpeed * Vector3.down, ForceMode.Impulse);
+        isSmashed = true;
     }
 }
