@@ -232,11 +232,11 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 7068266195544205945, guid: 25f8234a6cb694fc0b837ef14fa65213, type: 3}
   - {fileID: 5029767601308517877, guid: f889433962fc34cc4bc9f9d4d9a506a3, type: 3}
-  - {fileID: 8166427990207740342, guid: fee35b41bf8104f7cbc396c5ce9ab419, type: 3}
   powerupPrefabs:
   - {fileID: 8855803618999676117, guid: f9f84cb2a875149b2a76d6336bd7c95b, type: 3}
   - {fileID: 3831053725091299588, guid: 177123b0c60054b54914df211d140a96, type: 3}
   - {fileID: 3831053725091299588, guid: 77198c8ef17a54edfb63375693983652, type: 3}
+  bossPrefab: {fileID: 8166427990207740342, guid: fee35b41bf8104f7cbc396c5ce9ab419, type: 3}
   enemyCount: 0
   enemyWave: 1
 --- !u!4 &672712890

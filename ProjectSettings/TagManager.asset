@@ -10,6 +10,8 @@ TagManager:
   - Projectile
   - Powerup3
   - Island
+  - Boss
+  - Minion
   layers:
   - Default
   - TransparentFX
